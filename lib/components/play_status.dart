@@ -19,7 +19,7 @@ class PlayStatus extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () => Navigator.canPop(context),
+          onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(
             Icons.arrow_back_ios_new_outlined,
             color: Colors.white,

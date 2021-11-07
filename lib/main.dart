@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<ThemeProvider>(builder: (context, snapshot, _) {
           return MaterialApp(
-            title: 'WhatsApp Saver',
+            title: 'ST Saver',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               fontFamily: GoogleFonts.montserrat().fontFamily,
