@@ -1,7 +1,7 @@
 # Flutter_whatsapp_saver
 
 + Version : 1.0
-+ Author : Thirumurugan.C
++ Author : Thirumurugan
 + Created : 2021
 
 Description
