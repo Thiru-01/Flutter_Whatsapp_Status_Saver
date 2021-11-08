@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:whatsapp_saver/constant.dart';
 
 saveimage(String path, context) async {
-  var result = await ImageGallerySaver.saveFile(path);
+  var result = await ImageGallerySaver.saveFile(
+    path,
+  );
   if (result['isSuccess']) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: const Text("Image Saved Successfully!"),
@@ -14,7 +19,8 @@ saveimage(String path, context) async {
 }
 
 savevideo(String path, context) async {
-  var result = await ImageGallerySaver.saveFile(path);
+  var result = await ImageGallerySaver.saveFile(path,
+      name: "VIDEO-${DateTime.now().toString()}.mp4");
   if (result['isSuccess']) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: const Text("Video Saved Successfully!"),

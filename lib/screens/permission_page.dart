@@ -41,7 +41,7 @@ class PerimissionPage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     elevation: 0, minimumSize: Size(double.infinity, 6.h)),
                 onPressed: () async {
-                  askPermission();
+                  await askPermission();
                 },
                 child: const Text("Allow")),
           )

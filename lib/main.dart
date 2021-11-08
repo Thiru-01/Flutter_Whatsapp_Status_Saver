@@ -26,39 +26,54 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<ThemeProvider>(builder: (context, snapshot, _) {
           return MaterialApp(
-            title: 'ST Saver',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              fontFamily: GoogleFonts.montserrat().fontFamily,
-              primarySwatch: primaryswatch,
-            ),
-            home: FutureBuilder(
-                future: getPermission(),
-                builder: (context, AsyncSnapshot<PermissionStatus> snapshot) {
-                  if (snapshot.data == PermissionStatus.granted) {
-                    return const HomePage();
-                  }
-                  return PerimissionPage(
-                    askPermission: getPermission,
-                  );
-                }),
-          );
+              title: 'ST Saver',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                fontFamily: GoogleFonts.montserrat().fontFamily,
+                primarySwatch: primaryswatch,
+              ),
+              home: const PermissionState());
         }),
       );
     });
   }
+}
 
+class PermissionState extends StatefulWidget {
+  const PermissionState({Key? key}) : super(key: key);
+
+  @override
+  _PermissionStateState createState() => _PermissionStateState();
+}
+
+class _PermissionStateState extends State<PermissionState> {
   Future<PermissionStatus> getPermission() async {
     PermissionStatus status = await Permission.manageExternalStorage.status;
     if (status == PermissionStatus.denied) {
       PermissionStatus currentStatus =
           await Permission.manageExternalStorage.request();
       if (currentStatus == PermissionStatus.granted) {
+        setState(() {});
         return PermissionStatus.granted;
       } else {
         return PermissionStatus.denied;
       }
     }
+    setState(() {});
     return PermissionStatus.granted;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: getPermission(),
+        builder: (context, AsyncSnapshot<PermissionStatus> snapshot) {
+          if (snapshot.data == PermissionStatus.granted) {
+            return const HomePage();
+          }
+          return PerimissionPage(
+            askPermission: getPermission,
+          );
+        });
   }
 }
