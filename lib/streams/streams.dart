@@ -1,11 +1,11 @@
 import 'dart:io';
 
-final Directory photoDir = Directory.fromUri(Uri.parse(
+final Directory dir1 = Directory.fromUri(Uri.parse(
     '/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses/'));
-File fp = File(
-    '/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses/');
+final Directory dir2 = Directory.fromUri(
+    Uri.parse('/storage/emulated/0/WhatsApp/Media/.Statuses'));
 Stream<List> getimgaes() async* {
-  yield photoDir
+  yield getDirectory()
       .listSync()
       .map((item) => item.path.toString())
       .where((item) => item.endsWith('.jpg'))
@@ -13,9 +13,18 @@ Stream<List> getimgaes() async* {
 }
 
 Stream<List> getvideos() async* {
-  yield photoDir
+  yield getDirectory()
       .listSync()
       .map((item) => item.path.toString())
       .where((item) => item.endsWith('.mp4'))
       .toList(growable: false);
+}
+
+Directory getDirectory() {
+  final Directory directory =
+      File('/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses/.nomedia')
+              .existsSync()
+          ? dir1
+          : dir2;
+  return directory;
 }

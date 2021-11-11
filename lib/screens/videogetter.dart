@@ -39,7 +39,7 @@ class _VideoGetterState extends State<VideoGetter> {
       body: StreamBuilder<List>(
           stream: getvideos(),
           builder: (context, data) {
-            if (data.hasData) {
+            if (data.hasData && data.data!.isNotEmpty) {
               return RefreshIndicator(
                 onRefresh: makechange,
                 child: GridView.builder(
@@ -79,8 +79,12 @@ class _VideoGetterState extends State<VideoGetter> {
                           });
                     }),
               );
+            } else if (data.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
             }
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+                child: Text("No Status found",
+                    style: TextStyle(color: Colors.black26, fontSize: 14.sp)));
           }),
     );
   }

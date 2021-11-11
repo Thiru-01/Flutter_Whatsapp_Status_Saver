@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:sizer/sizer.dart';
 import 'package:whatsapp_saver/components/imagescreen.dart';
 import 'package:whatsapp_saver/streams/streams.dart';
 
@@ -30,7 +31,7 @@ class _ImageGetterState extends State<ImageGetter> {
       body: StreamBuilder<List>(
           stream: getimgaes(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
               return RefreshIndicator(
                 onRefresh: makechange,
                 child: StaggeredGridView.countBuilder(
@@ -60,8 +61,14 @@ class _ImageGetterState extends State<ImageGetter> {
                   crossAxisSpacing: 4.0,
                 ),
               );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
             }
-            return const Center(child: CircularProgressIndicator());
+            print(
+                "#############################################################dsfdf");
+            return Center(
+                child: Text("No Status found",
+                    style: TextStyle(color: Colors.black26, fontSize: 14.sp)));
           }),
     );
   }
