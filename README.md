@@ -23,10 +23,7 @@ An Android application is used for saving whatsapp status
 |[video_thumbnail](https://pub.dev/packages/video_thumbnail)|0.4.3|For Generating thumbnails for videos|
 |[chewie](https://pub.dev/packages/chewie)|Recent version supported by other packages|For Playing videos|
 |[share_plus](https://pub.dev/packages/share_plus)|3.0.4|For Sharing the files|
-
-### Released App 
-+ Path: <a href="Apk\App_Release.apk">Click here</a>
-
+ 
 ## Screenshots
  + **Permission Page 👇🏻**
   <img src="screenshots/Screenshot_20211107-230917.jpg" height=700, width=300>
