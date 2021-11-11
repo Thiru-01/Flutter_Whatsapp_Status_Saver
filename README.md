@@ -24,6 +24,8 @@ An Android application is used for saving whatsapp status
 |[chewie](https://pub.dev/packages/chewie)|Recent version supported by other packages|For Playing videos|
 |[share_plus](https://pub.dev/packages/share_plus)|3.0.4|For Sharing the files|
 
+### Released App 
++ Path: <a href="Apk\App_Release.apk">Click here</a>
 
 ## Screenshots
  + **Permission Page 👇🏻**
