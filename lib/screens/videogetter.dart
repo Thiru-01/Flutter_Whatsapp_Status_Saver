@@ -31,11 +31,6 @@ class _VideoGetterState extends State<VideoGetter> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        title: const Text("Video Saver"),
-      ),
       body: StreamBuilder<List>(
           stream: getvideos(),
           builder: (context, data) {

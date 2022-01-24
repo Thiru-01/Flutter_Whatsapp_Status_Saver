@@ -1,10 +1,7 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
+import 'package:whatsapp_saver/components/drawer.dart';
 import 'package:whatsapp_saver/constant.dart';
 import 'package:whatsapp_saver/provider/bottombarprovider.dart';
 import 'package:whatsapp_saver/screens/imagegetter.dart';
@@ -16,42 +13,44 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _widgetBox = [const ImageGetter(), const VideoGetter()];
-    final Directory photoDir = Directory.fromUri(Uri.parse(
-        '/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses/'));
     return Consumer<BottomBarProvider>(builder: (context, object, _) {
       return Scaffold(
-          extendBody: true,
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(2.h),
-                    topRight: Radius.circular(2.h)),
-                boxShadow: [
-                  BoxShadow(
-                      color: primaryswatch.shade300,
-                      spreadRadius: 1,
-                      blurRadius: 10)
-                ]),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(2.h),
-                  topRight: Radius.circular(2.h)),
-              child: BottomNavigationBar(
-                currentIndex: object.state,
-                onTap: (i) {
-                  object.changestate(i);
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.image), label: "Images"),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.video_collection_outlined),
-                      label: "Videos")
-                ],
-              ),
+        drawerScrimColor: primaryswatch.shade50,
+        drawer: CustomDrawer(),
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          title: Text(object.state == 0 ? "Image Saver" : "Video Saver"),
+        ),
+        extendBody: true,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+                color: primaryswatch.shade300, spreadRadius: 1, blurRadius: 10)
+          ]),
+          child: ClipPath(
+            clipper: ShapeBorderClipper(
+                shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15)))),
+            child: BottomNavigationBar(
+              currentIndex: object.state,
+              onTap: (i) {
+                object.changestate(i);
+              },
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.image), label: "Images"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.video_collection_outlined),
+                    label: "Videos")
+              ],
             ),
           ),
-          body: _widgetBox[object.state]);
+        ),
+        body: _widgetBox[object.state],
+      );
     });
   }
 }

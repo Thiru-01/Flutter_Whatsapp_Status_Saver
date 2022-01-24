@@ -23,11 +23,6 @@ class _ImageGetterState extends State<ImageGetter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        title: const Text("Image Saver"),
-      ),
       body: StreamBuilder<List>(
           stream: getimgaes(),
           builder: (context, snapshot) {

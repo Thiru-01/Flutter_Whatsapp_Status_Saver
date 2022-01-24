@@ -46,6 +46,8 @@ dependencies:
   video_thumbnail: ^0.4.3   
   chewie: 
   share_plus: ^3.0.4 
+  font_awesome_flutter: ^9.2.0   
+  webview_flutter: ^3.0.0 
   
 
 dev_dependencies:

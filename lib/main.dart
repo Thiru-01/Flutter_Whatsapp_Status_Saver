@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:whatsapp_saver/constant.dart';
 import 'package:whatsapp_saver/provider/bottombarprovider.dart';
+import 'package:whatsapp_saver/provider/instaprovider.dart';
 import 'package:whatsapp_saver/provider/themeprovider.dart';
 import 'screens/homepage.dart';
 import 'screens/permission_page.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<BottomBarProvider>(
               create: (_) => BottomBarProvider()),
           ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+          ChangeNotifierProvider<InstaProvider>(create: (_) => InstaProvider()),
         ],
         child: Consumer<ThemeProvider>(builder: (context, snapshot, _) {
           return MaterialApp(
