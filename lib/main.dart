@@ -10,7 +10,7 @@ import 'package:whatsapp_saver/provider/themeprovider.dart';
 import 'screens/homepage.dart';
 import 'screens/permission_page.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -51,6 +51,7 @@ class PermissionState extends StatefulWidget {
 class _PermissionStateState extends State<PermissionState> {
   Future<PermissionStatus> getPermission() async {
     PermissionStatus status = await Permission.manageExternalStorage.status;
+
     if (status == PermissionStatus.denied) {
       PermissionStatus currentStatus =
           await Permission.manageExternalStorage.request();

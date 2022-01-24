@@ -42,6 +42,8 @@ class InstaPage extends StatelessWidget {
                   )),
                   ElevatedButton(
                       onPressed: () {
+                        showalertbox("Downloading...", context);
+                        FocusScope.of(context).unfocus();
                         String url = txtcontroller.value.text.split("?")[0];
                         print(url);
                         controller!.loadUrl(url);
@@ -63,8 +65,14 @@ class InstaPage extends StatelessWidget {
                     onPageFinished: (url) {
                       print(snapshot.flag);
                       if (snapshot.flag) {
-                        snapshot.getHtml(controller);
+                        snapshot.getHtml(controller, context);
                       }
+
+                      // controller!.runJavascript('''
+                      //     window.document.body.getElementsByClassName("b5itu ")[0].innerText="";
+                      //     window.document.body.getElementsByClassName("A8wCM")[0].innerText="";
+                      //     window.document.body.getElementsByClassName("zGtbP  ")[0].innerText="";
+                      //     ''');
                     },
                   ),
                 );
@@ -75,4 +83,31 @@ class InstaPage extends StatelessWidget {
       ),
     );
   }
+}
+
+showalertbox(String txt, context) {
+  final alertbox = AlertDialog(
+    content: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const LinearProgressIndicator(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(txt),
+        )
+      ],
+    ),
+  );
+  showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alertbox;
+      });
+}
+
+showSnackbar(String message, context) {
+  final snackBar = SnackBar(content: Text(message));
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

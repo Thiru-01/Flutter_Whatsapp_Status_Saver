@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:whatsapp_saver/screens/instapage.dart';
 
 class InstaProvider extends ChangeNotifier {
   bool flag = false;
@@ -29,26 +32,61 @@ class InstaProvider extends ChangeNotifier {
     return csrfToken;
   }
 
-  void getHtml(WebViewController? controller) async {
+  void getHtml(WebViewController? controller, context) async {
+    Directory? storagePath;
+
+    final path = Directory("storage/emulated/0/DCIM/instSaver");
+    if (await path.existsSync()) {
+      storagePath = path;
+    } else {
+      path.create();
+      storagePath = path;
+    }
+
     String? url = await controller!.currentUrl();
     String? html;
-    print("image");
-    html = await controller.runJavascriptReturningResult(
-        'window.document.getElementsByClassName("FFVAD")[0].currentSrc;');
+    String extenion = ".jpg";
 
-    if (html == "null") {
-      print("video");
+    try {
       html = await controller.runJavascriptReturningResult(
-          'window.document.getElementsByClassName("tWeCl")[0].currentSrc;');
-    }
+          'window.document.getElementsByClassName("FFVAD")[0].currentSrc;');
 
-    if (html == "null" || html == "{}" || html.contains("blob:https")) {
-      var respose = await http.get(Uri.parse(url!.split("?")[0] + "?__a=1"));
-      Map data = jsonDecode(respose.body.toString());
-      var graphql = data['graphql'];
-      var shortcodeMedia = graphql['shortcode_media'];
-      html = shortcodeMedia['video_url'];
+      if (html == "null") {
+        html = await controller.runJavascriptReturningResult(
+            'window.document.getElementsByClassName("tWeCl")[0].currentSrc;');
+        if (html != "null") {
+          extenion = ".mp4";
+        }
+      }
+
+      if (html == "null" || html == "{}" || html.contains("blob:https")) {
+        var respose = await http.get(Uri.parse(url!.split("?")[0] + "?__a=1"));
+        Map data = jsonDecode(respose.body.toString());
+        var graphql = data['graphql'];
+        var shortcodeMedia = graphql['shortcode_media'];
+        html = shortcodeMedia['video_url'];
+        if (html != "null") {
+          extenion = ".mp4";
+        }
+      }
+
+      http.Client client = new http.Client();
+      var req = await client.get(Uri.parse(html!.replaceFirst('"', "")));
+      var bytes = req.bodyBytes;
+      print(path);
+      File file = new File(
+          '${storagePath.path}/INSTA${DateTime.now().millisecond.toString().trim().replaceAll(" ", "")}$extenion');
+
+      await file.writeAsBytes(bytes);
+      ImageGallerySaver.saveFile(file.path);
+      showSnackbar(
+          extenion == ".mp4"
+              ? "Video Saved Successfully"
+              : "Image Saved Successfully",
+          context);
+    } catch (e) {
+      showSnackbar("Something went wrong !!!", context);
     }
-    print(html);
+    Navigator.of(context).pop();
   }
 }

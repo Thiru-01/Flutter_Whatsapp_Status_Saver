@@ -29,7 +29,10 @@ class CustomDrawer extends StatelessWidget {
           children: [
             DrawerHeader(
                 child: Center(
-              child: Text("Thiru"),
+              child: Text(
+                "ST Saver",
+                style: TextStyle(color: Colors.black, fontSize: 20.sp),
+              ),
             )),
             for (int i = 0; i < drawerItems.length; i++)
               ListTile(
@@ -48,6 +51,15 @@ class CustomDrawer extends StatelessWidget {
                   _changepage(i, context);
                 },
               ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ListTile(
+                title: Text(
+                  "App Version 1.1",
+                  style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+                ),
+              ),
+            )
           ],
         );
       }),
